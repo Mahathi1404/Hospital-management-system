@@ -1,0 +1,38 @@
+#sidebar-wrapper{
+        z-index: 1;
+        width: 220px;
+        height: 100%;
+        position: fixed;
+        overflow: hidden;
+        background: #212529;
+        opacity: 0.9;
+        border: 2px solid;
+  }
+    #page-content-wrapper{
+      padding-left: 250px;
+      overflow: hidden;
+    }
+    .sidebar-nav{
+      padding: 0;
+      list-style: none;
+    }
+    .sidebar-nav li{
+      text-indent: 20px;
+      line-height: 40px;
+    }
+    .sidebar-nav li a{
+      display: block;
+      text-decoration: none;
+      color: #ddd;
+    }
+    .sidebar-nav li a:hover{
+      background: #16A085;
+    }
+
+    .sidebar-nav li ul li a.dropdown-item{
+      text-indent: 20px;
+      line-height: 40px;
+      display: block;
+      text-decoration: none;
+      color: #212529;
+    }

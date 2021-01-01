@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hospital management system</title>
+  <link href="{{url_for('static',filename='css/bootstrap.min.css')}}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../static/css/dashstyle.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">HealthCare System</a>
+        <ul class="navbar-nav ml-auto">
+          <a href="login.html">Logout</a>
+        </ul>
+  </nav>
+<div id="wrapper">
+    <div id="sidebar-wrapper" style="padding-top: 60px;">
+      <ul class="sidebar-nav">
+        
+        <li class="nav-item dropdown" style="display: block;">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">appoinments</a>
+          <ul class="dropdown-menu">
+            <li><a href="sche.html" class="dropdown-item">schedule appointment</a></li>
+            <li><a href="viewsch.html" class="dropdown-item">view appointment</a></li>
+          </ul>
+        </li>
+
+
+
+        <li class="nav-item dropdown" style="display: block;">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Department</a>
+          <ul class="dropdown-menu">
+            <li><a href="AddDept.html" class="dropdown-item">Add department</a></li>
+            <li><a href="dept.html" class="dropdown-item">view department</a></li>
+          </ul>
+        </li>
+
+
+
+        <li class="nav-item dropdown" style="display: block;">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Doctors</a>
+          <ul class="dropdown-menu">
+            <li><a href="addD.html" class="dropdown-item">Add doctor</a></li>
+            <li><a href="viewD.html" class="dropdown-item">view doctor</a></li>
+          </ul>
+        </li>
+
+
+        <li class="nav-item dropdown" style="display: block;">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Patient</a>
+          <ul class="dropdown-menu">
+            <li><a href="addP.html" class="dropdown-item">Register Patient</a></li>
+            <li><a href="viewP.html" class="dropdown-item">view Patient</a></li>
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+    <!--page content-->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12" style="padding-top: 60px;">
+            {% block content %}
+            {% endblock %}
+            </div>        
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+        <script type="text/javascript" src="{{url_for('static', filename='js/jquery.min.js') }}"></script>
+        <script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.5.1.slim.min.js') }}"></script>
+        <script type="text/javascript" src="{{url_for('static', filename='js/popper.min.js') }}"></script>
+        <script type="text/javascript" src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+        <script>
+          $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+              var value = $(this).val().toLowerCase();
+              $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+              });
+            });
+          });
+          </script>
+        {% block script %}{% endblock %}
+  </body>
+</html>
+

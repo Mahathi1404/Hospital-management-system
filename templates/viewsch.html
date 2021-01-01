@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content%}
+<h1 style="text-align: center;">appointment list</h1>
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+         <input class="form-control" id="myInput" type="text" placeholder="Search..">
+         <br>
+        <table class="table table-striped">
+           <thead>
+            <tr>
+                <th>Serial</th>
+                <th>Doctor</th>
+                <th>Patient</th>
+                <th>date</th>
+                <th>action</th>
+            </tr>
+            </thead>
+            <tbody id="myTable">
+            {% for row in lists%}
+            <tr>
+                <td>{{row.0}}</td>
+                <td>{{row.1}}</td>
+                <td>{{row.2}}</td>
+                <td>{{row.3}}</td>
+                <td><a href="/updatesch/{{row.0}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.0}}">Edit</a>
+                <a href="/deleteSche/{{row.0}}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure to delete?')">Delete</a></td>
+            </tr>
+            <div id="modaledit{{row.0}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                   <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title" id="comeleft">Update</h4>
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                      </div>
+                      <div class="modal-body">
+                        <form action='/updatesch' method="POST">
+                           <input type="hidden"  name="id" value="{{row.0}}">
+                           <div class="form-group" data-target="sche">
+                              <label>Doctor:</label>
+                                 <select class="form-control select2" name="doctor" required>
+                                    <option value="">{{row.1}}</option>
+                                 {% for each in dlist %}
+                                   <option value="{{each.0}}">{{each.1,each.6}}</option>
+                                 {% endfor %}
+                             
+                               </select>
+                           </div>
+                           <div class="form-group">
+                              <label>Patient:</label>
+                              <select name="patient" class="form-control selectpicker"  required>
+                                 <option value="">{{row.2}}</option>
+                                 {% for each in plist %}
+                                   <option value="{{each.0}}">{{each.1,each.4}}</option>
+                                 {% endfor %}  
+                               </select>
+                           </div>
+                           <div class="form-group">     
+                            Date:<input name="date" placeholder="yyyy-mm-dd" class="form-control" type="date" required value="{{row.3}}">
+                            </div>
+                          </div>
+                            <div class="form-group">
+                               <button class="btn btn-primary" type="submit">Update Data</button>
+                            </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-default" data-dismiss="modal" style="padding:0px;">Close</button>
+                        </div>
+                     </form>
+                  </div>
+                   </div>
+                </div>
+            </div>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>  
+</div>
+{%endblock%}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content%}
+<h1 style="text-align: center;">Department list</h1>
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+         <input class="form-control" id="myInput" type="text" placeholder="Search..">
+         <br>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>department</th>
+                <th>treatment</th>
+                <th>Doctors</th>
+            </tr>
+            </thead>
+            <tbody id="myTable">
+            {% for row in department%}
+            <tr>
+                <td>{{row.0}}</td>
+                <td>{{row.1}}</td>
+                <td><a href="/deptDoc/{{row.0}}" class="btn btn-warning btn-xs">view doctors</a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>  
+</div>
+{%endblock%}

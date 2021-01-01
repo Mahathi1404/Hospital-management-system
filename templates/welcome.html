@@ -1,0 +1,84 @@
+<html>
+  <head>
+    <title>HMS</title>
+    <meta charset="UTF-8" />
+    <link href="{{url_for('static',filename='css/bootstrap.min.css')}}" rel="stylesheet">
+    <style type="text/css">
+    .navbar{ background:#000000ec;}
+
+.nav-link , .navbar-brand{color: #f4f4f4; cursor: pointer;}
+
+.nav-link{ margin-right: 1em !important;}
+
+.nav-link:hover{ background: #f4f4f4; color: #f97300; }
+
+.navbar-collapse{ justify-content: flex-end;}
+
+.navbar-toggler{  background:#fff !important;}
+    			.header{
+            min-height:100%;
+      background-image: url('../static/stetoscope.jpg');
+      background-attachment: fixed;
+      background-size: cover;
+    background-position: center;
+    }
+    .overlay{
+ position: absolute;
+ min-height: 100%;
+ min-width: 100%;
+ left: 0;
+ top: 0;
+ background: rgba(244, 244, 244, 0.79);
+}
+             .description{
+            position: absolute;
+            top: 20%;
+            margin: auto;
+            padding: 2em;
+            }
+            .description h1{
+             color:rgb(0,0,0); 
+            }
+            .description p{
+             color:rgb(0,0,0);
+             font-size: 25px;
+             width: 50%;
+             line-height: 1.5;
+            }
+            .description button{
+             border:1px  solid rgb(0,0,0);
+             background:rgb(0,0,0);
+             color:#fff;
+			}
+			.description button a{
+				color: white;
+			}
+
+    </style>
+
+  </head>
+
+  <body>
+    <!-- navbar -->  
+ <nav class="navbar navbar-expand-lg fixed-top ">  
+  <a class="navbar-brand" href="#">HealthCare System</a>
+ <div class="collapse navbar-collapse " id="navbarSupportedContent">    
+ </div></nav>
+    <header class="header">
+      <div class="overlay"></div>
+    </header>
+    <div class="description ">
+        <h1> Hello,Welcome to SRH</h1>
+        <p>    Handy system to manage patients and doctor information,schedule appointments,
+               keep track of inpatients of the hospital
+        </p>   
+		<button class="btn btn-outline-secondary btn-lg"><a href="login.html">LOGIN</a></button>
+    </div>
+  </body>
+  <script typr="text/javascript">$(document).ready(function(){
+    $('.header').height($(window).height()); 
+   })</script>
+  <script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.5.1.slim.min.js') }}"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='js/popper.min.js') }}"></script>
+  <script type="text/javascript" src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+</html>

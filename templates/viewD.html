@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block content%}
+<h1 style="text-align: center;">Doctor list</h1>
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+           <h3>{{page_name}}</h3>
+           <input class="form-control" id="myInput" type="text" placeholder="Search..">
+            <br>
+        <table class="table table-striped">
+           <thead>
+            <tr>
+                <th>Serial</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Phone no</th>
+                <th>Department</th>
+                <th>Salary</th>
+                <th>action</th>
+            </tr>
+            </thead>
+            <tbody id="myTable">
+            {% for row in doctors%}
+            <tr>
+                <td>{{row.0}}</td>
+                <td>{{row.1}}</td>
+                <td>{{row.2}}</td>
+                <td>{{row.3}}</td>
+                <td>{{row.4}}</td>
+                <td>{{row.5}}</td>
+                <td>{{row.6}}</td>
+                <td>{{row.7}}</td>
+                <td><a href="/updateD/{{row.0}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.0}}">Edit</a></td>
+            </tr>
+            <div id="modaledit{{row.0}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                   <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title" id="comeleft">Update</h4>
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                      </div>
+                      <div class="modal-body">
+                         <form action='updateD' method="POST">
+                            <div class="form-group">
+                               <label>Name:</label>
+                               <input type="hidden"  name="id" value="{{row.0}}">
+                               <input type="text" class="form-control" name="name" value="{{row.1}}">
+                            </div>
+                            <div class="form-group">
+                                <label>Gender:</label>
+                                <input type="text" class="form-control" name="gender" value="{{row.2}}">
+                             </div>
+                             <div class="form-group">
+                                <label>Age:</label>
+                                <input type="number" class="form-control" name="age" value="{{row.3}}">
+                             </div>
+                             <div class="form-group">
+                               <label>Email:</label>
+                               <input type="text" class="form-control" name="email" value="{{row.4}}">
+                            </div>
+                             <div class="form-group">
+                               <label>Phone:</label>
+                               <input type="text" class="form-control" name="phone" value="{{row.5}}">
+                            </div>
+                            <div class="form-group">
+                                <label>department:</label>
+                                <input type="text" class="form-control" name="department" value="{{row.6}}">
+                             </div>
+                             <div class="form-group">
+                                <label>Salary:</label>
+                                <input type="text" class="form-control" name="salary" value="{{row.7}}">
+                             </div>
+                            <div class="form-group">
+                               <button class="btn btn-primary" type="submit">Update Data</button>
+                            </div>
+                         </form>
+                      </div>
+                      <div class="modal-footer">
+                         <button type="button" class="btn btn-default" data-dismiss="modal" style="padding:0px;">Close</button>
+                      </div>
+                   </div>
+                </div>
+            </div>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>  
+</div>
+{%endblock%}
