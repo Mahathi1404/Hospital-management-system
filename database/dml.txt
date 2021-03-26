@@ -1,0 +1,83 @@
+#for patient table:
+insert into patient(p_name,gender,age,email,phone_no) values('mahathi','F',20,'mns@gmail.com','9988998899');
+insert into patient(p_name,gender,age,email,phone_no) values('abc','M',40,'abc@gmail.com','1111111111'),('ana','F',30,'ana@gmail.com','1111111112'),
+('bhavana','F',50,'bvb@gmail.com','2221111111');
+
+
+#for departments table:
+insert into departments values('orthopedics','bones'),('cardiology','heart');
+insert into departments values('oncology','cancer'),('general medicine','general');
+
+#for doctor table:
+insert into doctor(doc_name,d_gender,age,email,phone_no,department,salary) values('dr.shiva','M',45,'ab@gmail.com','8888888888','cardiology',70000);
+insert into doctor(doc_name,d_gender,age,email,phone_no,department,salary) values('dr.anu','F',25,'anu@gmail.com','9988888888','general medicine',50000),
+('dr.gagan','M',28,'gg@gmail.com','9999888888','oncology',90000);
+
+#for labTest:
+insert into labTest(test_name,test_details,fee) values('blood sugar','sugar content in blood',500);
+insert into labTest(test_name,test_details,fee) values('blood pressure','pressure of blood',200),('ECG','heart rate',400),('x-ray','imaging',800);
+
+#for assistTable:
+insert into assistTable(lab_id,patient_id,doc_id,issue_date) values(1,1,10,'2020-02-02');
+insert into assistTable(lab_id,patient_id,doc_id,issue_date) values(1,2,10,'2020-04-02'),(1,2,10,'2020-04-02');
+
+#for appointment:
+insert into Appointment(patient_id,doc_id,app_date) values(1,10,'2020-02-02');
+insert into Appointment(patient_id,doc_id,app_date) values(2,11,'2020-10-02');
+
+#for room:
+insert into Room(room_type,status) values('general','vaccant');
+insert into Room(room_type,status) values('general','vaccant'),('semi special','vaccant'),('special','under renovation');
+
+#for inpatientInfo
+insert into inpatientInfo(adm_id,patient_id,room_no,adm_date) values(200,1,1,'2020-02-02');
+insert into inpatientInfo(adm_id,patient_id,room_no,adm_date) values(201,2,2,'2020-10-02');
+
+#for Bill:
+insert into Bill(billed_for,bill_amt,bill_status,bill_date,patient_id) values('medicines',200,'paid','2020-02-02',1);
+insert into Bill(billed_for,bill_amt,bill_status,bill_date,patient_id) values('consultation fee',200,'paid','2020-02-02',1);
+
+#for medicine:
+insert into Medicine(m_name,m_date,e_date,company) values('dolo500','2020-01-01','2023-02-02','cipla');
+insert into Medicine(m_name,m_date,e_date,company) values('ketorol','2019-01-01','2022-02-02','cipla'),
+('cyraD','2020-01-01','2023-04-12','generic'),('moov','2020-01-01','2025-12-02','nameit');
+
+#for Prescription:
+insert into Prescription(prs_id,patient_id,doc_id,m_id) values(1,1,10,1);
+insert into Prescription(prs_id,patient_id,doc_id,m_id) values(1,1,10,2);
+
+#sql statements
+/* list the appontments*/
+select  d.doc_name,p.p_name from
+ appointment as a
+ inner join
+ doctor as d
+ inner join
+ patient as p
+ where a.doc_id=d.doc_id and a.patient_id=p.patient_id;
+
+/*list of medicines prescribed by dr.shiva to mahathi*/
+select m.m_name from prescription as a,
+doctor as d,patient as p,medicine as m
+where a.doc_id=d.doc_id and a.patient_id=p.patient_id and a.m_id=m.m_id and  d.doc_name='dr.shiva' and  p.p_name ="mahathi" ;
+
+/* tests suggested by dr.shiva to his patients*/
+select p_name,doc_name,test_name from
+patient as p,doctor as d, labtest as l,assisttable as a
+where d.doc_name='dr.shiva' and d.doc_id = a.doc_id and
+p.patient_id = a.patient_id and l.lab_id = a.lab_id;
+
+/*total number of doctors in each department*/
+
+select dp.department, count(*) from
+doctor as d , departments as dp
+where d.department=dp.department
+group by d.department
+
+
+
+
+
+
+
+

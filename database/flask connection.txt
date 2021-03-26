@@ -1,0 +1,11 @@
+navigate to the folder where app(HSM) is placed.
+enter Scripts\activate
+
+set FLASK_ENV = development(i.e debugger mode on)
+set FLASK_APP=app_name.py
+
+
+
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.5.1.slim.min.js') }}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/popper.min.js') }}"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
