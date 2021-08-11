@@ -8,7 +8,7 @@ app.secret_key = 'many random bytes'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'Database@122'
 app.config['MYSQL_DB'] = 'hmsys'
 mysql = MySQL(app)
 
@@ -21,33 +21,43 @@ def hello():
 def html_page(page_name):
 	return render_template(page_name)
 
-@app.route('/submit_form', methods=['POST','GET'])
+@app.route('/submit_form', methods=['POST'])
 def submit_form():
 	msg=''
 	if request.method == 'POST':
 		username = request.form['username']
+		email=request.form['email']
 		passwd = request.form['passwd']
 		cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-		cur.execute("SELECT  * FROM users WHERE username = %s AND passwd = %s",(username,passwd))
+		cur.execute("SELECT  * FROM users WHERE username=%s AND email = %s AND passwd = %s",(username,email,passwd))
 		account = cur.fetchone()
 		if account:
 			session['loggedin']=True
-			session['id'] = account['id']
-			session['username']=account['username']
-			return redirect('recepD.html')
+			session["user"]=account["username"]
+			return redirect('recepD')
+		else:
+			msg = 'Incorrect username/password!'
+			return render_template('login.html',msg=msg)
+
+@app.route("/recepD")
+def dashboard():
+	if('user' in session):
+		return render_template("recepD.html")
 	else:
-		 msg = 'Incorrect username/password!'
-	return render_template('login.html',msg=msg)
+		return render_template('login.html')
+
 
 #this will be the logout page
 @app.route('/logout')
 def logout():
     # Remove session data, this will log the user out
-   session.clear()
-   # Redirect to login page
-   return redirect(url_for('login'))
+	#print("hellooooooooooooo")
+	session.pop("user",None)
+	session.clear()
+	# Redirect to login page
+	return redirect('login.html')
 
-@app.route('/viewP.html')
+@app.route('/viewPr')
 def indexP():
 	cur=mysql.connection.cursor()
 	cur.execute("SELECT * FROM patient")
@@ -70,16 +80,16 @@ def update():
 					UPDATE patient SET p_name=%s,gender=%s,age=%s,email=%s,phone_no=%s 
 					where patient_id=%s """,(name,gender,age,email,phone,id_data))
 		mysql.connection.commit()
-		return redirect('viewP.html')
+		return redirect('viewPr')
 
 @app.route('/deleteP/<int:id_data>',methods=['GET'])
 def deleteP(id_data):
 	cur = mysql.connection.cursor()
 	cur.execute("DELETE FROM patient WHERE patient_id=%s",(id_data,))
 	mysql.connection.commit()
-	return redirect('/viewP.html')
+	return redirect('viewPr')
 
-@app.route('/dept.html')
+@app.route('/departments')
 def indexDp():
 	cur=mysql.connection.cursor()
 	cur.execute("SELECT * FROM Departments")
@@ -87,7 +97,7 @@ def indexDp():
 	cur.close()
 	return render_template('dept.html',department=data)
 
-@app.route('/viewD.html')
+@app.route('/docList')
 def indexD():
 	cur=mysql.connection.cursor()
 	cur.execute("SELECT * FROM Doctor")
@@ -111,9 +121,9 @@ def updateD():
 					UPDATE Doctor SET doc_name=%s,d_gender=%s,age=%s,email=%s,phone_no=%s,department=%s,salary=%s
 					where doc_id=%s """,(name,gender,age,email,phone,department,salary,id_data))
 		mysql.connection.commit()
-		return redirect('viewD.html')
+		return redirect('docList')
 		
-@app.route('/addD.html')
+@app.route('/addDoc')
 def depts():
 	cur=mysql.connection.cursor()
 	cur.execute("SELECT * FROM Departments")
@@ -136,7 +146,7 @@ def insertD():
 		cur = mysql.connection.cursor()
 		cur.execute("insert into doctor(doc_name,d_gender,age,email,phone_no,department,salary) values(%s,%s,%s,%s,%s,%s,%s)",(name,gender,age,email,phone,department,salary))
 		mysql.connection.commit()
-		return redirect('viewD.html')
+		return redirect('docList')
 
 @app.route('/insertP',methods=['POST'])
 def insertP():
@@ -149,9 +159,13 @@ def insertP():
 		cur = mysql.connection.cursor()
 		cur.execute("insert into Patient(p_name,gender,age,email,phone_no) values(%s,%s,%s,%s,%s)",(name,gender,age,email,phone))
 		mysql.connection.commit()
-		return redirect('viewP.html')
+		return redirect('viewPr')
 
-@app.route('/viewsch.html')
+@app.route('/addDept')
+def addDepartment():
+	return redirect('AddDept.html')
+		
+@app.route('/scheduleList')
 def indexsch():
 	cur=mysql.connection.cursor()
 	cur.execute("""select app_id, d.doc_name,p.p_name,app_date from 
@@ -172,8 +186,8 @@ def indexsch():
 	cur2.close()
 	return render_template('viewsch.html',lists=data,dlist=doc,plist=pat)
 
-@app.route('/sche.html')
-def sche():
+@app.route('/schedule')
+def schedule():
 	cur=mysql.connection.cursor()
 	cur1=mysql.connection.cursor()
 	cur.execute("SELECT * FROM doctor")
@@ -195,7 +209,7 @@ def scheApp():
 		cur = mysql.connection.cursor()
 		cur.execute("insert into Appointment(patient_id,doc_id ,app_date) values(%s,%s,%s)",(patient,doctor,date))
 		mysql.connection.commit()
-		return redirect('viewsch.html')
+		return redirect('scheduleList')
 
 @app.route('/insertDpt',methods=['POST'])
 def insertDpt():
@@ -205,7 +219,7 @@ def insertDpt():
 		cur = mysql.connection.cursor()
 		cur.execute("insert into Departments(department,treatment) values(%s,%s)",(name,treatment))
 		mysql.connection.commit()
-		return redirect('dept.html')
+		return redirect('departments')
 
 @app.route('/deptDoc/<string:page_name>',methods=['POST','GET'])
 def deptDoc(page_name):
@@ -220,7 +234,7 @@ def deleteSche(id_data):
 	cur = mysql.connection.cursor()
 	cur.execute("DELETE FROM Appointment WHERE app_id=%s",(id_data,))
 	mysql.connection.commit()
-	return redirect('/viewsch.html')
+	return redirect('/scheduleList')
 
 @app.route('/updatesch',methods=['POST','GET'])
 def updatesch():
@@ -232,6 +246,8 @@ def updatesch():
 		cur = mysql.connection.cursor()
 		cur.execute("UPDATE Appointment SET patient_id=%s,doc_id=%s,app_date=%s where app_id=%s",(patient,doctor,date,id_data))
 		mysql.connection.commit()
-		return redirect('viewsch.html')
+		return redirect('scheduleList')
+
+
 if __name__ == '__main__':
     app.run(port=5000,debug=True)

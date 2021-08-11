@@ -46,38 +46,6 @@ insert into Medicine(m_name,m_date,e_date,company) values('ketorol','2019-01-01'
 insert into Prescription(prs_id,patient_id,doc_id,m_id) values(1,1,10,1);
 insert into Prescription(prs_id,patient_id,doc_id,m_id) values(1,1,10,2);
 
-#sql statements
-/* list the appontments*/
-select  d.doc_name,p.p_name from
- appointment as a
- inner join
- doctor as d
- inner join
- patient as p
- where a.doc_id=d.doc_id and a.patient_id=p.patient_id;
-
-/*list of medicines prescribed by dr.shiva to mahathi*/
-select m.m_name from prescription as a,
-doctor as d,patient as p,medicine as m
-where a.doc_id=d.doc_id and a.patient_id=p.patient_id and a.m_id=m.m_id and  d.doc_name='dr.shiva' and  p.p_name ="mahathi" ;
-
-/* tests suggested by dr.shiva to his patients*/
-select p_name,doc_name,test_name from
-patient as p,doctor as d, labtest as l,assisttable as a
-where d.doc_name='dr.shiva' and d.doc_id = a.doc_id and
-p.patient_id = a.patient_id and l.lab_id = a.lab_id;
-
-/*total number of doctors in each department*/
-
-select dp.department, count(*) from
-doctor as d , departments as dp
-where d.department=dp.department
-group by d.department
-
-
-
-
-
-
-
-
+#for users:
+insert into users(username,email,passwd) values("user1","abc@hospital.com","abc123");
+insert into users(username,email,passwd) values("user2","xyz@hospital.com","abc143");

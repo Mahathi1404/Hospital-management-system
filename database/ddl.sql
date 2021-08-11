@@ -1,3 +1,5 @@
+CREATE database hmsys
+USE hmsys
 CREATE TABLE Patient(
 patient_id int not null AUTO_INCREMENT,
 p_name varchar(255),
@@ -128,3 +130,10 @@ FOREIGN KEY(m_id) REFERENCES Medicine(m_id)ON UPDATE CASCADE
 );
 
 ALTER TABLE Prescription AUTO_INCREMENT=200;
+create table users(
+	username varchar(30),
+    email varchar(30),
+    passwd varchar(30),
+    primary key(email),
+    unique(email)
+);
